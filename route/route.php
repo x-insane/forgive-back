@@ -11,10 +11,14 @@
 
 Route::get('/', 'index/index/index');
 
+Route::get('test', 'index/admin/test');
+
 Route::group('android', function() {
 	Route::post('login', 'index/admin/login');
 	Route::post('register', 'index/admin/register');
 	Route::post('request_message', 'index/admin/request_message');
+	Route::post('reset_passwd', 'index/admin/reset_passwd');
+	Route::post('reset_passwd_request_message', 'index/admin/reset_passwd_request_message');
 });
 
 return [
