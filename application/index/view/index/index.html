@@ -42,24 +42,14 @@
 					</tr>
 				</thead>
 				<tbody>
+					{volist name="list" id="item"}
 					<tr>
-						<th scope="row">1</th>
-						<td>Mark</td>
-						<td>52</td>
-						<td>@mdo</td>
+						<th scope="row">{$i}</th>
+						<td>{$item.game_name}</td>
+						<td>{$item.score}</td>
+						<td>{$item.nickname}</td>
 					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>Merry Christmas</td>
-						<td>231</td>
-						<td>Christmas</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>Larry</td>
-						<td>102</td>
-						<td>@twitter</td>
-					</tr>
+					{/volist}
 				</tbody>
 			</table>
 		</div>

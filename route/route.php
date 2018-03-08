@@ -16,9 +16,11 @@ Route::get('test', 'index/admin/test');
 Route::group('android', function() {
 	Route::post('login', 'index/admin/login');
 	Route::post('register', 'index/admin/register');
-	Route::post('request_message', 'index/admin/request_message');
 	Route::post('reset_passwd', 'index/admin/reset_passwd');
+	Route::post('request_message', 'index/admin/request_message');
+	Route::post('register_request_message', 'index/admin/register_request_message');
 	Route::post('reset_passwd_request_message', 'index/admin/reset_passwd_request_message');
+	Route::post('upload_score', 'index/admin/upload_score');
 });
 
 return [
