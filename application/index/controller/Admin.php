@@ -24,7 +24,9 @@ class Admin {
 			"error"  =>  0,
 			"msg"    =>  "登陆成功",
             "user"   =>  [
-                "nickname"  =>  $user->nickname
+                "phone"       =>  $user->phone,
+                "nickname"    =>  $user->nickname,
+                "description" =>  $user->description
             ],
             "data"   =>  $data
 		]);
@@ -191,6 +193,35 @@ class Admin {
         }
         return json([
             "error"  =>  0
+        ]);
+    }
+
+    public function modify_user() {
+        if (!session("?user_id")) {
+            return json([
+                "error"  =>  1,
+                "msg"    =>  "请先登陆"
+            ]);
+        }
+        $user = User::find(session("user_id"));
+        if (!$user) {
+            return json([
+                "error"  =>  1,
+                "msg"    =>  "账号异常，请重新登陆"
+            ]);
+        }
+        if (input("?post.nickname"))
+            $user->nickname = input("post.nickname");
+        if (input("?post.description"))
+            $user->description = input("post.description");
+        $user->save();
+        return json([
+            "error"  =>  0,
+            "user"   =>  [
+                "phone"       =>  $user->phone,
+                "nickname"    =>  $user->nickname,
+                "description" =>  $user->description
+            ],
         ]);
     }
 

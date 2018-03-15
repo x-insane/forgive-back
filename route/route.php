@@ -21,6 +21,7 @@ Route::group('android', function() {
 	Route::post('register_request_message', 'index/admin/register_request_message');
 	Route::post('reset_passwd_request_message', 'index/admin/reset_passwd_request_message');
 	Route::post('upload_score', 'index/admin/upload_score');
+	Route::post('modify_user', 'index/admin/modify_user');
 });
 
 return [
