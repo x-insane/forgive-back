@@ -3,6 +3,7 @@ namespace app\index\controller;
 use Yunpian\Sdk\YunpianClient;
 use app\index\model\User;
 use app\index\model\GameBest;
+use app\index\model\ChallengeBest;
 
 class Admin {
 
@@ -17,9 +18,14 @@ class Admin {
     		]);
     	}
     	session("user_id", $user->id);
-        $data = GameBest::field([
+        $scores = GameBest::field([
             "game_id", "score"
         ])->where("user_id", $user->id)->select();
+        $velocities = ChallengeBest::field([
+            "game_id", "velocity"
+        ])->where("user_id", $user->id)->select();
+        $scores = $scores->toArray();
+        $velocities = $velocities->toArray();
     	return json([
 			"error"  =>  0,
 			"msg"    =>  "登陆成功",
@@ -28,7 +34,7 @@ class Admin {
                 "nickname"    =>  $user->nickname,
                 "description" =>  $user->description
             ],
-            "data"   =>  $data
+            "data"     =>  array_merge($scores, $velocities)
 		]);
     }
 
@@ -177,19 +183,36 @@ class Admin {
                 "msg"    =>  "请先登陆"
             ]);
         }
-        $game = GameBest::where("game_id", input("post.game"))->where("user_id", session("user_id"))->find();
-        if ($game) {
-            if ($game->score < (int) input("post.score"))
-                $game->score = (int) input("post.score");
-            $game->game_name = input("post.name");
-            $game->save();
+        if (input("post.type") == "challenge") {
+            $game = ChallengeBest::where("game_id", input("post.game"))->where("user_id", session("user_id"))->find();
+            if ($game) {
+                if ($game->velocity < (float) input("post.velocity"))
+                    $game->velocity = (float) input("post.velocity");
+                $game->game_name = input("post.name");
+                $game->save();
+            } else {
+                $game = new ChallengeBest();
+                $game->user_id = session("user_id");
+                $game->game_id = input("post.game");
+                $game->game_name = input("post.name");
+                $game->velocity = (float) input("post.velocity");
+                $game->save();
+            }
         } else {
-            $game = new GameBest();
-            $game->user_id = session("user_id");
-            $game->game_id = input("post.game");
-            $game->game_name = input("post.name");
-            $game->score = (int) input("post.score");
-            $game->save();
+            $game = GameBest::where("game_id", input("post.game"))->where("user_id", session("user_id"))->find();
+            if ($game) {
+                if ($game->score < (int) input("post.score"))
+                    $game->score = (int) input("post.score");
+                $game->game_name = input("post.name");
+                $game->save();
+            } else {
+                $game = new GameBest();
+                $game->user_id = session("user_id");
+                $game->game_id = input("post.game");
+                $game->game_name = input("post.name");
+                $game->score = (int) input("post.score");
+                $game->save();
+            }
         }
         return json([
             "error"  =>  0
@@ -223,10 +246,6 @@ class Admin {
                 "description" =>  $user->description
             ],
         ]);
-    }
-
-    public function test() {
-    	
     }
     
 }

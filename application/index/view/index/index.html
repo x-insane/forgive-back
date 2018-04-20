@@ -6,6 +6,14 @@
 	<link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="shortcut icon" href="https://static.gotohope.cn/img/favicon.ico" type="image/x-icon" />
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<style>
+		h4 {
+			width: 100%;
+			text-align: center;
+			margin-top: 28px;
+			margin-bottom: 22px;
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,6 +40,7 @@
 
 	<div class="container">
 		<div class="row">
+			<h4>原谅区</h4>
 			<table class="table">
 				<thead>
 					<tr>
@@ -42,11 +51,35 @@
 					</tr>
 				</thead>
 				<tbody>
-					{volist name="list" id="item"}
+					{volist name="score_list" id="item"}
 					<tr>
 						<th scope="row">{$i}</th>
 						<td>{$item.game_name}</td>
 						<td>{$item.score}</td>
+						<td>{$item.nickname}</td>
+					</tr>
+					{/volist}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="row">
+			<h4>挑战区</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">关卡</th>
+						<th scope="col">最快速度</th>
+						<th scope="col">擂主</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="velocity_list" id="item"}
+					<tr>
+						<th scope="row">{$i}</th>
+						<td>{$item.game_name}</td>
+						<td>{$item.velocity}</td>
 						<td>{$item.nickname}</td>
 					</tr>
 					{/volist}
